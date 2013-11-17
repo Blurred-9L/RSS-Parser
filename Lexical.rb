@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Rodrigo Fuentes Hernandez
 # aka Blurred_9L
 # Compiladores CUCEI 2013B

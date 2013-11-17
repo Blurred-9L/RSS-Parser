@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Rodrigo Fuentes Hernandez
 # aka Blurred_9L
 # Compiladores CUCEI 2013B
@@ -7,6 +8,9 @@ require "./Token.rb"
 require "./RssTokens.rb"
 require "./Lexical.rb"
 require "./RssAtmt.rb"
+require "./RssNTerminals.rb"
+require "./RssTable.rb"
+require "./Syntactic.rb"
 
 class RssParser
     private
@@ -23,6 +27,12 @@ class RssParser
             tokenTypes.set()
             Token.setTokenTypes( tokenTypes )
         end
+        
+        def ntSetUp()
+            ntTypes = RssNTerminals.new()
+            ntTypes.set()
+            NonTerminal.setTypes( ntTypes )
+        end
     
     public
         INPUT_FILE = "entrada.txt"
@@ -33,19 +43,16 @@ class RssParser
             @lines = Array.new()
             readFile()
             tokensSetUp()
+            ntSetUp()
             @rssAutomata = RssAtmt.new()
             @lexAnalyzer = Lexical.new( @lines, @rssAutomata )
+            @rssTable = RssTable.new()
+            @rssTable.setUp()
+            @syntaxAnalyzer = Syntactic.new( @lexAnalyzer, @rssTable )
         end
         
         def run()
-            token = @lexAnalyzer.nextToken()
-            while token != nil
-                if /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/.match( token.symbol )
-                    token.type = Token.getTokenTypes().types["Url"]
-                end
-                puts token
-                token = @lexAnalyzer.nextToken()
-            end
+            @syntaxAnalyzer.analyze()
         end
 end
 
