@@ -82,7 +82,6 @@ class Syntactic
                 puts "Shift: #{ index }"
                 @stateStack.push( index )
                 @syntaxTree.push( @token )
-                # syntaxTree.push( @token )
                 
                 getToken()
             elsif action == LRTable::REDUCE
@@ -103,12 +102,9 @@ class Syntactic
                      3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2,
                      0, 2, 0]
             
+            @stateStack.pop( times[index - 1] )
+            children = @syntaxTree.pop( times[index - 1] )
             
-            for i in ( 0...times[index - 1] )
-                @stateStack.pop()
-                @syntaxTree.pop()
-            end
-            #reduceStacks( index )
             nonTermKey = case index
                 when 1 then "rss_tag"
                 when 2 then "rss_start"
@@ -140,7 +136,7 @@ class Syntactic
             key = [@stateStack.last(), nonTerm]
             if @lrTable.table.has_key?( key )
                 @stateStack.push( @lrTable.table[key][1] )
-                @syntaxTree.push( nonTerm )
+                @syntaxTree.push( NonTerminal.new( nonTerm, children ) )
             else
                 puts "Error: Could not apply reduction."
                 @correctSyntax = false

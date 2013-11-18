@@ -27,6 +27,10 @@ class Token < SyntaxNode
             return @@tokenTypes
         end
         
+        def visitNode()
+            puts @symbol
+        end
+        
         def to_s()
             str = symbol + " " + super()
             

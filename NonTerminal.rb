@@ -23,6 +23,12 @@ class NonTerminal < SyntaxNode
             @@ntTypes = types
         end
         
+        def visitNode()
+            for child in children
+                child.visitNode()
+            end
+        end
+        
         def NonTerminal.getTypes()
             return @@ntTypes
         end

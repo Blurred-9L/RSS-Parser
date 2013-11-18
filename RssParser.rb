@@ -53,6 +53,9 @@ class RssParser
         
         def run()
             @syntaxAnalyzer.analyze()
+            puts ""
+            puts "Checking..."
+            @syntaxAnalyzer.syntaxTree.last().visitNode()
         end
 end
 
