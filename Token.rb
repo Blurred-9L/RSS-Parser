@@ -4,18 +4,19 @@
 # Compiladores CUCEI 2013B
 # Token.rb
 
+require "./SyntaxNode.rb"
 require "./TokenTypes.rb"
 
-class Token
-    attr_reader :symbol, :type
-    attr_writer :symbol, :type
+class Token < SyntaxNode
+    attr_reader :symbol
+    attr_writer :symbol
     
     @@tokenTypes = nil
     
     public
         def initialize( symbol, type )
+            super( type )
             @symbol = symbol
-            @type = type
         end
         
         def Token.setTokenTypes( types )
@@ -27,7 +28,7 @@ class Token
         end
         
         def to_s()
-            str = symbol + " " + type.to_s
+            str = symbol + " " + super()
             
             return str
         end

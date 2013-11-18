@@ -4,12 +4,21 @@
 # Compiladores CUCEI 2013B
 # NonTerminal.rb
 
+require "./SyntaxNode.rb"
 require "./NonTerminalTypes.rb"
 
-class NonTerminal
+class NonTerminal < SyntaxNode
+    attr_reader :children
+    attr_writer :children
+    
     @@ntTypes = nil
     
     public
+        def initialize( type, children )
+            super( type )
+            @children = children
+        end
+        
         def NonTerminal.setTypes( types )
             @@ntTypes = types
         end
