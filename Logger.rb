@@ -4,23 +4,33 @@
 # Compiladores CUCEI 2013B
 # Logger.rb
 
-require 'singleton'
+require "singleton"
 
 class Logger
-    attr_reader :log, :writeEnabled
-    attr_writer :log, :writeEnabled
+    attr_reader :log, :debugLog, :errorLog, :writeEnabled
+    attr_writer :log, :debugLog, :errorLog, :writeEnabled
     
     include Singleton
     
     public
         def initialize()
             @log = STDOUT
+            @debugLog = STDOUT
+            @errorLog = STDOUT
             @writeEnabled = true
         end
         
         def writeLog( logString )
             if @writeEnabled
-                @log.puts( logString )
+                @log.print( logString )
             end
+        end
+        
+        def writeError( errString )
+            @errorLog.puts( errString )
+        end
+        
+        def writeDebug( dbgString )
+            @debugLog.puts( dbgString )
         end
 end

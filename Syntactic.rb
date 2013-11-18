@@ -44,18 +44,18 @@ class Syntactic
             getToken()
             while @correctSyntax and not done
                 if @token != nil
-                    Logger.instance.writeLog( "Token: #{ @token.symbol }" )
-                    Logger.instance.writeLog( "Type: #{ @token.type }" )
+                    Logger.instance.writeDebug( "Token: #{ @token.symbol }" )
+                    Logger.instance.writeDebug( "Type: #{ @token.type }" )
                     done = doAction( @stateStack.last(), @token.type )
                 else
-                    Logger.instance.writeLog( "Token: $" ) 
-                    Logger.instance.writeLog( "Type: End of Input" )
+                    Logger.instance.writeDebug( "Token: $" ) 
+                    Logger.instance.writeDebug( "Type: End of Input" )
                     done = doAction( @stateStack.last(), Token.getTokenTypes().types["InputEnd"] )
                 end
             end
             
             if @correctSyntax
-                Logger.instance.writeLog( "Ok" )
+                Logger.instance.writeDebug( "Ok" )
             end
         end
         
@@ -69,7 +69,7 @@ class Syntactic
                 index = value[1]
                 done = applyAction( action, index, input )
             else
-                Logger.instance.writeLog( "Error: Could not find pair." )
+                Logger.instance.writeError( "Error: Could not find pair." )
                 @correctSyntax = false
             end
             
@@ -80,16 +80,16 @@ class Syntactic
             done = false
             
             if action == LRTable::SHIFT
-                Logger.instance.writeLog( "Shift: #{ index }" )
+                Logger.instance.writeDebug( "Shift: #{ index }" )
                 @stateStack.push( index )
                 @syntaxTree.push( @token )
                 
                 getToken()
             elsif action == LRTable::REDUCE
-                Logger.instance.writeLog( "Reduce: #{ index }" )
+                Logger.instance.writeDebug( "Reduce: #{ index }" )
                 applyReduction( index )
             elsif action == LRTable::CHANGE
-                Logger.instance.writeLog( "Error: Unreacheable code reached." )
+                Logger.instance.writeError( "Error: Unreacheable code reached." )
                 correctSyntax = false
             elsif action == LRTable::ACCEPT
                 done = true
@@ -139,7 +139,7 @@ class Syntactic
                 @stateStack.push( @lrTable.table[key][1] )
                 @syntaxTree.push( NonTerminal.new( nonTerm, children ) )
             else
-                Logger.instance.writeLog( "Error: Could not apply reduction." )
+                Logger.instance.writeError( "Error: Could not apply reduction." )
                 @correctSyntax = false
             end
         end

@@ -6,6 +6,7 @@
 
 require "./SyntaxNode.rb"
 require "./TokenTypes.rb"
+require "./Logger.rb"
 
 class Token < SyntaxNode
     attr_reader :symbol
@@ -19,16 +20,20 @@ class Token < SyntaxNode
             @symbol = symbol
         end
         
+        def visitNode()
+            if @type == Token.getTokenTypes().types["Token"]
+                Logger.instance.writeLog( "#{ @symbol } " )
+            elsif @type == Token.getTokenTypes().types["Url"]
+                Logger.instance.writeLog( "#{ @symbol } " )
+            end
+        end
+        
         def Token.setTokenTypes( types )
             @@tokenTypes = types
         end
         
         def Token.getTokenTypes()
             return @@tokenTypes
-        end
-        
-        def visitNode()
-            puts @symbol
         end
         
         def to_s()
