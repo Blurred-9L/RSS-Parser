@@ -11,6 +11,7 @@ require "./RssAtmt.rb"
 require "./RssNTerminals.rb"
 require "./RssTable.rb"
 require "./Syntactic.rb"
+require "./Logger.rb"
 
 class RssParser
     private
@@ -53,11 +54,11 @@ class RssParser
         
         def run()
             @syntaxAnalyzer.analyze()
-            puts ""
             puts "Checking..."
             @syntaxAnalyzer.syntaxTree.last().visitNode()
         end
 end
 
+Logger.instance.writeEnabled = false
 rssParser = RssParser.new( RssParser::INPUT_FILE )
 rssParser.run()
