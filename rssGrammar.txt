@@ -1,0 +1,58 @@
+<rss_tag>           ::= <rss_start> <rss_children> <rss_end>
+<rss_start>         ::= '<' 'rss' <version> '>'
+<version>           ::= 'version' '=' '"' 'version_num' '"'
+<rss_end>           ::= '</' 'rss' '>'
+<rss_children>      ::= <channel_tag> <channels>
+<channels>          ::= <channel_tag> <channels>
+                    ::= 'epsilon'
+<channel_tag>       ::= <channel_start> <channel_children> <channel_end>
+<channel_start>     ::= '<' 'channel' '>'
+<channel_end>       ::= '</ 'channel' '>'
+<channel_children>  ::= <title_tag> <channel_children>
+                    ::= <link_tag> <channel_children>
+                    ::= <description_tag> <channel_children>
+                    ::= <item_tag> <channel_children>
+                    ::= 'epsilon'
+<title_tag>         ::= <title_start> <content> <title_end>
+<title_start>       ::= '<' 'title' '>'
+<title_end>         ::= '</' 'title' '>'
+<link_tag>          ::= <link_start> 'url' <link_end>
+<link_start>        ::= '<' 'link' '>'
+<link_end>          ::= '</' 'link' '>'
+<description_tag>   ::= <description_start> <content> <description_end>
+<description_start> ::= '<' 'description' '>'
+<description_end>   ::= '</' 'description' '>'
+<item_tag>          ::= <item_start> <item_children> <item_end>
+<item_start>        ::= '<' 'item' '>'
+<item_end>          ::= '</' 'item' '>'
+<item_children>     ::= <title_tag> <item_children>
+                    ::= <link_tag> <item_children>
+                    ::= <description_tag> <item_children>
+                    ::= 'epsilon'
+<content>           ::= 'token' <content>
+                    ::= 'epsilon'
+                    
+TOKENS:
+    =
+    "
+    <
+    >
+    </
+    'version_num'
+    'enc_name'
+    'token'
+    
+<version_num>   ::= <digito> '.' <digito>+
+<enc_name>      ::= <letra> ( <letra> | <digito> | '_' | '-' )*
+<token>         ::= ascii+
+    
+PALABRAS RESERVADAS:
+    version
+    encoding
+    rss
+    channel
+    title
+    link
+    description
+    item
+    
